@@ -16,7 +16,7 @@
         <div id="overlay">
             <div id="start" class="box">START</div>
             <div class="box instructions">
-                <h3>INSTRUCTIONS</h3>
+                <div class="box-title"><h3>INSTRUCTIONS</h3></div>
                 <ul>
                     <li>Click "START" and the screen will tun red.</li>
                     <li>Wait for the screen to turn red and click as fast as you can.</li>
@@ -24,12 +24,18 @@
             </div>
             <div class="boards">
                 <div class="box board leaderboard">
-                    <h3>LEADERBOARD</h3>
+                    <div class="box-title">
+                        <h3>LEADERBOARD</h3>
+                        <span>avg - <span id="leaderboard-average">N/A</span></span>
+                    </div>
                     <ul id="leaderboard-list"></ul>
                 </div>
 
                 <div class="box board history">
-                    <h3>HISTORY</h3>
+                    <div class="box-title">
+                        <h3>HISTORY</h3>
+                        <span>avg - <span id="history-average">N/A</span></span>
+                    </div>
                     <ul id="history-list"></ul>
                 </div>
             </div>

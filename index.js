@@ -12,6 +12,7 @@ const game = {
     dirty_boards: true,
     leaderboard: [],
     history: [],
+    history_average: -1,
 };
 
 const RED_COLOR = 'red';// 'hsla(0, 85%, 55%, 1)';
@@ -27,7 +28,9 @@ let timer_el = $('#timer');
 let overlay_el = $('#overlay');
 let start_el = $('#start');
 let leaderboard_el = $('#leaderboard-list');
+let leaderboard_average_el = $('#leaderboard-average');
 let history_el = $('#history-list');
+let history_average_el = $('#history-average');
 
 start_el.onmouseup = ({ button }) => {
     if (button !== 0) {
@@ -35,7 +38,7 @@ start_el.onmouseup = ({ button }) => {
     }
 
     if (game.start_enable && !game.running) {
-        start_game();
+        start_round();
     }
 
     if (!game.start_enable && !game.running) {
@@ -45,7 +48,7 @@ start_el.onmouseup = ({ button }) => {
 
 target_el.onmousedown = () => {
     if (game.running) {
-        end_game();
+        end_round();
     }
 };
 
@@ -55,7 +58,7 @@ target_el.onmouseup = () => {
     }
 }
 
-function start_game() {
+function start_round() {
     game.running = true;
     game.start_time = Date.now();
     game.react_time = Date.now() + (
@@ -66,7 +69,7 @@ function start_game() {
     game.start_enable = false;
 }
 
-function end_game() {
+function end_round() {
     game.running = false;
     if (game.reaction < 0) {
         console.log('u suck')
@@ -82,10 +85,20 @@ function end_game() {
         game.history.splice(0, 0, score);
         game.history = game.history.slice(0, 5);
 
+        game.history_average = game.history
+            .map(h => h.reaction)
+            .reduce((a, c) => a + c)
+            / game.history.length;
+
         game.leaderboard.push(score);
         game.leaderboard = game.leaderboard
             .sort((a, b) => a.reaction - b.reaction)
             .slice(0, 5);
+
+        game.leaderboard_average = game.leaderboard
+            .map(h => h.reaction)
+            .reduce((a, c) => a + c)
+            / game.leaderboard.length;
 
         game.dirty_boards = true;
     }
@@ -132,6 +145,16 @@ function draw() {
     if (game.dirty_boards) {
         leaderboard_el.innerHTML = "";
         history_el.innerHTML = "";
+
+        if (game.leaderboard.length > 0) {
+            let average_fmt = Math.round(game.leaderboard_average);
+            leaderboard_average_el.innerText = `${average_fmt}ms`;
+        }
+
+        if (game.history.length > 0) {
+            let average_fmt = Math.round(game.history_average);
+            history_average_el.innerText = `${average_fmt}ms`;
+        }
 
         for (let i = 0; i < 5; i++) {
             let leaderboard_score = game.leaderboard[i];
