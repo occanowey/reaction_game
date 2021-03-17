@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Test</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="target" style="background-color: limegreen;">
+        <div id="timer"></div>
+
+        <div id="overlay">
+            <div id="start" class="box">START</div>
+            <div class="box instructions">
+                <h3>INSTRUCTIONS</h3>
+                <ul>
+                    <li>Click "START" and the screen will tun red.</li>
+                    <li>Wait for the screen to turn red and click as fast as you can.</li>
+                </ul>
+            </div>
+            <div class="boards">
+                <div class="box board leaderboard">
+                    <h3>LEADERBOARD</h3>
+                    <ul id="leaderboard-list"></ul>
+                </div>
+
+                <div class="box board history">
+                    <h3>HISTORY</h3>
+                    <ul id="history-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="leaderboard-template">
+        <li>{{reaction}}ms {{if {{medal}} {🥇}}}</li>
+    </template>
+
+    <template id="history-template">
+        <li>{{reaction}}ms</li>
+    </template>
+
+    <script src="index.js"></script>
+</body>
+</html>
